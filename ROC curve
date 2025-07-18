@@ -1,0 +1,21 @@
+
+test_labels_bin = label_binarize(test_labels_encoded, classes=np.arange(len(os.listdir(train_dir))))
+test_predictions_bin = test_predictions  # The predicted probabilities for each class
+
+# Compute ROC curve and ROC AUC for each class
+fpr, tpr, roc_auc = {}, {}, {}
+for i in range(len(os.listdir(train_dir))):
+    fpr[i], tpr[i], _ = roc_curve(test_labels_bin[:, i], test_predictions_bin[:, i])
+    roc_auc[i] = auc(fpr[i], tpr[i])
+
+# Plot ROC curve
+plt.figure(figsize=(10, 8))
+for i in range(len(os.listdir(train_dir))):
+    plt.plot(fpr[i], tpr[i], label=f'Class {i} (AUC = {roc_auc[i]:.2f})')
+
+plt.plot([0, 1], [0, 1], linestyle='--', color='gray')  # Diagonal line
+plt.title("ROC Curve")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.legend(loc="lower right")
+plt.show()
