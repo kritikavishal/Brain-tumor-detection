@@ -1,0 +1,31 @@
+def augment_image(image):
+    image = Image.fromarray(np.uint8(image))
+    image = ImageEnhance.Brightness(image).enhance(random.uniform(0.8, 1.2))  # Random brightness
+    image = ImageEnhance.Contrast(image).enhance(random.uniform(0.8, 1.2))  # Random contrast
+    image = np.array(image) / 255.0  # Normalize pixel values to [0, 1]
+    return image
+
+# Load images and apply augmentation
+def open_images(paths):
+    images = []
+    for path in paths:
+        image = load_img(path, target_size=(IMAGE_SIZE, IMAGE_SIZE))
+        image = augment_image(image)
+        images.append(image)
+    return np.array(images)
+
+# Encoding labels (convert label names to integers)
+def encode_label(labels):
+    unique_labels = os.listdir(train_dir)  # Ensure unique labels are determined
+    encoded = [unique_labels.index(label) for label in labels]
+    return np.array(encoded)
+
+# Data generator for batching
+def datagen(paths, labels, batch_size=12, epochs=1):
+    for _ in range(epochs):
+        for i in range(0, len(paths), batch_size):
+            batch_paths = paths[i:i + batch_size]
+            batch_images = open_images(batch_paths)  # Open and augment images
+            batch_labels = labels[i:i + batch_size]
+            batch_labels = encode_label(batch_labels)  # Encode labels
+            yield batch_images, batch_labels  # Yield the batch
