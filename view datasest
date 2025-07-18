@@ -1,0 +1,25 @@
+
+import matplotlib.pyplot as plt
+
+
+# Select random indices for 10 images
+random_indices = random.sample(range(len(train_paths)), 10)
+
+# Create a figure to display images in 2 rows
+fig, axes = plt.subplots(2, 5, figsize=(15, 8))
+axes = axes.ravel()
+
+for i, idx in enumerate(random_indices):
+    # Load image
+    img_path = train_paths[idx]
+    img = Image.open(img_path)
+    img = img.resize((224, 224))  # Resize to consistent size
+
+    # Display image
+    axes[i].imshow(img)
+    axes[i].axis('off')  # Hide axis
+    # Display class label in the second row
+    axes[i].set_title(f"Label: {train_labels[idx]}", fontsize=10)
+
+plt.tight_layout()
+plt.show()
