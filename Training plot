@@ -1,0 +1,32 @@
+from tensorflow.keras.applications import VGG16
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import Dense, Flatten, Dropout
+from tensorflow.keras.optimizers import Adam
+
+import os
+
+
+
+
+IMAGE_SIZE = 128  # Image size (adjust based on your requirements)
+base_model = VGG16(input_shape=(IMAGE_SIZE, IMAGE_SIZE, 3), include_top=False, weights='imagenet')
+
+# Freeze all layers of the VGG16 base model
+for layer in base_model.layers:
+    layer.trainable = False
+
+# Set the last few layers of the VGG16 base model to be trainable
+base_model.layers[-2].trainable = True
+base_model.layers[-3].trainable = True
+base_model.layers[-4].trainable = True
+
+# Build the final model
+model = Sequential()
+model.add(Input(shape=(IMAGE_SIZE, IMAGE_SIZE, 3)))  # Input layer
+model.add(base_model)  # Add VGG16 base model
+model.add(Flatten())  # Flatten the output of the base model
+model.add(Dropout(0.3))  # Dropout layer for regularization
+model.add(Dense(128, activation='relu'))  # Dense layer with ReLU activation
+model.add(Dropout(0.2))  # Dropout layer for regularization
+model.add(Dense(len(os.listdir(train_dir)), activation='softmax'))  # Output layer with softmax activation
