@@ -1,0 +1,18 @@
+
+import matplotlib.pyplot as plt
+from sklearn.metrics import classification_report, confusion_matrix, roc_curve, auc
+import seaborn as sns
+from sklearn.preprocessing import label_binarize
+from tensorflow.keras.models import load_model
+import numpy as np
+
+# 1. Prediction on test data
+test_images = open_images(test_paths)  # Load and augment test images
+test_labels_encoded = encode_label(test_labels)  # Encode the test labels
+
+# Predict using the trained model
+test_predictions = model.predict(test_images)
+
+# 2. Classification Report
+print("Classification Report:")
+print(classification_report(test_labels_encoded, np.argmax(test_predictions, axis=1)))
