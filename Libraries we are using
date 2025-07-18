@@ -1,0 +1,13 @@
+
+import os  # using this for file operations
+import numpy as np  # using this for  numerical operations
+import random  # generate random values
+from PIL import Image, ImageEnhance  # it performs operations like image brightness increase, sharpening
+
+#ml libraries
+from tensorflow.keras.preprocessing.image import load_img  # used to load images
+from tensorflow.keras.models import Sequential  # For building the model
+from tensorflow.keras.layers import Input, Flatten, Dropout, Dense  # For model layers
+from tensorflow.keras.optimizers import Adam  # For optimizer
+from tensorflow.keras.applications import VGG16  # For using VGG16 model
+from sklearn.utils import shuffle  # For shuffling the data
