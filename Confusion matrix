@@ -1,0 +1,12 @@
+
+conf_matrix = confusion_matrix(test_labels_encoded, np.argmax(test_predictions, axis=1))
+print("Confusion Matrix:")
+print(conf_matrix)
+
+# Plot the Confusion Matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues", xticklabels=os.listdir(train_dir), yticklabels=os.listdir(train_dir))
+plt.title("Confusion Matrix")
+plt.xlabel("Predicted Labels")
+plt.ylabel("True Labels")
+plt.show()
