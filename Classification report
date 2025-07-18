@@ -1,0 +1,10 @@
+
+plt.figure(figsize=(8,4))
+plt.grid(True)
+plt.plot(history.history['sparse_categorical_accuracy'], '.g-', linewidth=2)
+plt.plot(history.history['loss'], '.r-', linewidth=2)
+plt.title('Model Training History')
+plt.xlabel('epoch')
+plt.xticks([x for x in range(epochs)])
+plt.legend(['Accuracy', 'Loss'], loc='upper left', bbox_to_anchor=(1, 1))
+plt.show()
